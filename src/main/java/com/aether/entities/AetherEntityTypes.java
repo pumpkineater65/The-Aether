@@ -14,6 +14,7 @@ import com.aether.entities.projectile.PoisonDartEntity;
 import com.aether.entities.projectile.PoisonNeedleEntity;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.entity.*;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -71,23 +72,23 @@ public class AetherEntityTypes {
     }
 
     public static void initializeClient() {
-        register(MOA, (entityRenderDispatcher, context) -> new MoaRenderer(entityRenderDispatcher));
-        register(FLOATING_BLOCK, (entityRenderDispatcher, context) -> new FloatingBlockRenderer(entityRenderDispatcher));
-        register(FLYING_COW, (entityRenderDispatcher, context) -> new FlyingCowRenderer(entityRenderDispatcher));
-        register(SHEEPUFF, (entityRenderDispatcher, context) -> new SheepuffRenderer(entityRenderDispatcher));
-        register(AERBUNNY, (entityRenderDispatcher, context) -> new AerbunnyRenderer(entityRenderDispatcher));
-        register(AECHOR_PLANT, (entityRenderDispatcher, context) -> new AechorPlantRenderer(entityRenderDispatcher));
-        register(PHYG, (entityRenderDispatcher, context) -> new PhygRenderer(entityRenderDispatcher));
-        register(COCKATRICE, (entityRenderDispatcher, context) -> new CockatriceRenderer(entityRenderDispatcher));
+        register(MOA, (entityRenderDispatcher) -> new MoaRenderer(entityRenderDispatcher.getRenderDispatcher()));
+        register(FLOATING_BLOCK, (entityRenderDispatcher) -> new FloatingBlockRenderer(entityRenderDispatcher.getRenderDispatcher()));
+        register(FLYING_COW, (entityRenderDispatcher) -> new FlyingCowRenderer(entityRenderDispatcher.getRenderDispatcher()));
+        register(SHEEPUFF, (entityRenderDispatcher) -> new SheepuffRenderer(entityRenderDispatcher.getRenderDispatcher()));
+        register(AERBUNNY, (entityRenderDispatcher) -> new AerbunnyRenderer(entityRenderDispatcher.getRenderDispatcher()));
+        register(AECHOR_PLANT, (entityRenderDispatcher) -> new AechorPlantRenderer(entityRenderDispatcher.getRenderDispatcher()));
+        register(PHYG, (entityRenderDispatcher) -> new PhygRenderer(entityRenderDispatcher.getRenderDispatcher()));
+        register(COCKATRICE, (entityRenderDispatcher) -> new CockatriceRenderer(entityRenderDispatcher.getRenderDispatcher()));
 
-        register(ENCHANTED_DART, (entityRenderDispatcher, context) -> new DartRenderer(entityRenderDispatcher));
-        register(GOLDEN_DART, (entityRenderDispatcher, context) -> new DartRenderer(entityRenderDispatcher));
-        register(POISON_DART, (entityRenderDispatcher, context) -> new DartRenderer(entityRenderDispatcher));
-        register(POISON_NEEDLE, (entityRenderDispatcher, context) -> new DartRenderer(entityRenderDispatcher));
+        register(ENCHANTED_DART, (entityRenderDispatcher) -> new DartRenderer(entityRenderDispatcher.getRenderDispatcher()));
+        register(GOLDEN_DART, (entityRenderDispatcher) -> new DartRenderer(entityRenderDispatcher.getRenderDispatcher()));
+        register(POISON_DART, (entityRenderDispatcher) -> new DartRenderer(entityRenderDispatcher.getRenderDispatcher()));
+        register(POISON_NEEDLE, (entityRenderDispatcher) -> new DartRenderer(entityRenderDispatcher.getRenderDispatcher()));
 
         //entityRenderMap.put(EntityMiniCloud.class, new MiniCloudRenderer(renderManager));
         //entityRenderMap.put(EntityAerwhale.class, new AerwhaleRenderer(renderManager));
-        register(CHEST_MIMIC, (entityRendererDispatcher, context) -> new ChestMimicRenderer(entityRendererDispatcher));
+        register(CHEST_MIMIC, (entityRendererDispatcher) -> new ChestMimicRenderer(entityRendererDispatcher.getRenderDispatcher()));
         //entityRenderMap.put(EntityWhirlwind.class, new WhirlwindRenderer(renderManager));
         //entityRenderMap.put(EntityPhoenixArrow.class, new PhoenixArrowRenderer(renderManager));
 
@@ -101,7 +102,7 @@ public class AetherEntityTypes {
         return Registry.register(Registry.ENTITY_TYPE, Aether.locate(name), FabricEntityTypeBuilder.create(category, factory).dimensions(size).disableSaving().build());
     }
 
-    private static void register(EntityType<? extends Entity> clazz, EntityRendererRegistry.Factory factory) {
+    private static void register(EntityType<? extends Entity> clazz, EntityRendererFactory factory) {
         EntityRendererRegistry.INSTANCE.register(clazz, factory);
     }
 

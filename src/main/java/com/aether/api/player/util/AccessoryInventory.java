@@ -97,7 +97,7 @@ public interface AccessoryInventory extends Inventory {
 
     @Override
     default boolean canPlayerUse(PlayerEntity playerIn) {
-        return !playerIn.removed;
+        return !playerIn.isRemoved();
     }
 
     @Override

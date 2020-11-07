@@ -80,13 +80,13 @@ public class FloatingBlockEntity extends Entity {
 
     @Override
     public boolean collides() {
-        return !this.removed;
+        return !this.isRemoved();
     }
 
     @Override
     public void tick() {
         if (this.state.isAir()) {
-            this.remove();
+            this.kill();
         } else {
             this.prevX = this.getX();
             this.prevY = this.getY();
@@ -99,7 +99,7 @@ public class FloatingBlockEntity extends Entity {
                 if (this.world.getBlockState(blockpos).getBlock() == block) {
                     this.world.setBlockState(blockpos, Blocks.AIR.getDefaultState());
                 } else if (!this.world.isClient) {
-                    this.remove();
+                    this.kill();
                     return;
                 }
             }
@@ -131,7 +131,7 @@ public class FloatingBlockEntity extends Entity {
                             this.dropItem(block);
                         }
 
-                        this.remove();
+                        this.kill();
                     }
                 } else {
                     if (!flag1 && FloatingBlock.canFloatThrough(this.world.getBlockState(new BlockPos(this.getX(), this.getY() + 0.009999999776482582D, this.getZ())))) {
@@ -147,7 +147,7 @@ public class FloatingBlockEntity extends Entity {
 
             if (this.getVelocity().y == 0.0F) {
                 this.world.setBlockState(new BlockPos(this.getPos()), this.getBlockstate());
-                this.remove();
+                this.kill();
             }
         }
     }

@@ -29,8 +29,8 @@ public class DartShooter extends Item {
         } else if (playerIn.getStackInHand(Hand.MAIN_HAND).getItem() == this.ammo) {
             return playerIn.getStackInHand(Hand.MAIN_HAND);
         } else {
-            for (int index = 0; index < playerIn.inventory.size(); ++index) {
-                ItemStack stack = playerIn.inventory.getStack(index);
+            for (int index = 0; index < playerIn.getInventory().size(); ++index) {
+                ItemStack stack = playerIn.getInventory().getStack(index);
                 if (stack.getItem() == this.ammo) return stack;
             }
             return ItemStack.EMPTY;
