@@ -1,7 +1,9 @@
 package com.aether.items;
 
+import com.aether.client.gui.BookOfLoreScreen;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -31,9 +33,7 @@ public class BookOfLore extends Item {
 
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
-
-        // TODO: Open the book
-
+        MinecraftClient.getInstance().openScreen(new BookOfLoreScreen());
         return TypedActionResult.pass(itemStack);
     }
 }
