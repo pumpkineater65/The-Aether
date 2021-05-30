@@ -19,7 +19,8 @@ public class BookOfLoreScreen extends Screen {
     public static final Identifier PAGE_TEXTURE_RIGHT = Aether.locate("textures/gui/lore_book_r.png");
 
     private final Style unicodeStyle;
-    private Text testText;
+    private PageType currentPage = PageType.Landing;
+    private Text landingTitle, landingSubtitle, landingCategories;
 
     public BookOfLoreScreen() {
         super(NarratorManager.EMPTY);
@@ -28,9 +29,11 @@ public class BookOfLoreScreen extends Screen {
 
     @Override
     public void init(MinecraftClient client, int width, int height) {
-        super.init(client, width, height);
+        landingTitle = new TranslatableText("item.the_aether.lore_book").setStyle(Style.EMPTY.withBold(true));
+        landingSubtitle = new TranslatableText("book.edition", "1").setStyle(unicodeStyle);
+        landingCategories = new TranslatableText("book.categories").setStyle(Style.EMPTY.withBold(true));
 
-        testText = new TranslatableText("optimizeWorld.confirm.description").setStyle(unicodeStyle);
+        super.init(client, width, height);
     }
 
     @Override
@@ -40,14 +43,29 @@ public class BookOfLoreScreen extends Screen {
         final int w = this.width / 2;
         final int h = this.height / 2;
 
-        this.client.getTextureManager().bindTexture(PAGE_TEXTURE_LEFT);
-        this.drawTexture(matrices, w - 136, h - 90, 0, 0, 136, 180);
-
-        this.client.getTextureManager().bindTexture(PAGE_TEXTURE_RIGHT);
-        this.drawTexture(matrices, w, h - 90, 0, 0, 136, 180);
-
-        this.textRenderer.draw(matrices, testText, w - 120, h, 0);
+        if (currentPage == PageType.Landing)
+            renderLandingPage(matrices, w, h);
 
         super.render(matrices, mouseX, mouseY, delta);
+    }
+
+    private void renderLandingPage(MatrixStack matrices, int centerX, int centerY) {
+        this.client.getTextureManager().bindTexture(PAGE_TEXTURE_LEFT);
+        this.drawTexture(matrices, centerX - 136, centerY - 90, 0, 0, 136, 180);
+
+        this.client.getTextureManager().bindTexture(PAGE_TEXTURE_RIGHT);
+        this.drawTexture(matrices, centerX, centerY - 90, 0, 0, 136, 180);
+
+        matrices.push();
+        matrices.scale(1.2f, 1.2f, 1.2f);
+        this.textRenderer.draw(matrices, landingTitle, (centerX * .8334f) - 95.84f, (centerY * .8334f) - 60f, 0);
+        matrices.pop();
+        this.textRenderer.draw(matrices, landingSubtitle, centerX - 115, centerY - 60, 0);
+
+        this.textRenderer.draw(matrices, landingCategories, centerX + (textRenderer.getWidth(landingCategories) * .5f), centerY - 71f, 0);
+    }
+
+    enum PageType {
+        Landing, Info
     }
 }
