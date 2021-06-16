@@ -23,7 +23,10 @@
     "server.PlayerManagerMixin",
     "server.ServerPlayNetworkHandlerMixin",
     "server.ServerWorldMixin",
-    "structure.FeatureMixin"
+    "structure.FeatureMixin",
+    "world.MultiNoiseBiomeSourceMixin",
+    "world.GeneratorOptionsMixin",
+    "world.NoiseChunkGeneratorMixin"
   ],
   "client": [
     "block.EnchantingTableBlockMixin",

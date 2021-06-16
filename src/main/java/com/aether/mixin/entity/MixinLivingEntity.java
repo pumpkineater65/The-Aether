@@ -3,8 +3,6 @@ package com.aether.mixin.entity;
 import com.aether.items.AetherItems;
 import com.aether.items.utils.AetherTiers;
 import com.google.common.collect.Sets;
-import dev.emi.trinkets.api.TrinketComponent;
-import dev.emi.trinkets.api.TrinketsApi;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -40,19 +38,13 @@ public abstract class MixinLivingEntity extends Entity {
 
         if ((Object) this instanceof Player) {
             Player playerEntity = (Player) (Object) this;
-            Optional<TrinketComponent> componentOptional = TrinketsApi.getTrinketComponent(playerEntity);
 
-            if (componentOptional.isPresent()) {
-                // Get parachutes from trinket slots
-                final Set<Item> validItems = Sets.newHashSet(AetherItems.CLOUD_PARACHUTE, AetherItems.GOLDEN_CLOUD_PARACHUTE);
-                for (Item item : validItems) {
-                    if (componentOptional.get().isEquipped(item)) {
-                        if (isFalling && !this.hasEffect(MobEffects.SLOW_FALLING) && !isInWater() && !playerEntity.isShiftKeyDown()) {
-                            gravity -= 0.07;
-                            this.fallDistance = 0;
-                        }
-                        break;
-                    }
+            // Get parachutes from trinket slots
+            final Set<Item> validItems = Sets.newHashSet(AetherItems.CLOUD_PARACHUTE, AetherItems.GOLDEN_CLOUD_PARACHUTE);
+            if (playerEntity.getInventory().hasAnyOf(validItems)) {
+                if (isFalling && !this.hasEffect(MobEffects.SLOW_FALLING) && !isInWater() && !playerEntity.isShiftKeyDown()) {
+                    gravity -= 0.07;
+                    this.fallDistance = 0;
                 }
             }
         }
