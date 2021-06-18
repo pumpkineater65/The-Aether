@@ -22,12 +22,9 @@
     "issues": "https://github.com/devs-immortal/The-Aether/issues"
   },
   "depends": {
-    "fabricloader": ">=0.11.3",
+    "forge": ">=36.1.31",
     "minecraft": ">=1.16.4",
-    "fabric-api-base": "*",
-    "fabric-registry-sync-v0": "*",
-    "fabric-networking-v0": "*",
-    "trinkets": "*"
+       
   },
   "mixins": [
     "the_aether.mixins.json"
